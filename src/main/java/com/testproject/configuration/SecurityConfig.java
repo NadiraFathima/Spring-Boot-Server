@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -14,10 +15,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+        httpSecurity.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse() )
                     .and()
-                //add filter after means that our custom filter will be applied after csrfFilter  is done
-                    .addFilterAfter(new CsrfCustomFilter(), CsrfFilter.class)
                     .authorizeRequests()
                 .antMatchers("/login").permitAll()
                     .anyRequest().authenticated()
@@ -30,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //autowired annotation calls this method with an instance of 'AuthenticationManagerBuilder' when SecurityConfig bean is created
         auth.inMemoryAuthentication()
             .withUser("admin")
-            .password("{noop}password")
+            .password("root")
              .roles("USER");
     }
 
