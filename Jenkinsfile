@@ -7,7 +7,7 @@ pipeline {
    }
 
    stages {
-      stage('Build') {
+      stage('JAR Build') {
          steps {
             // Get some code from a GitHub repository
             git 'https://github.com/NadiraFathima/Spring-Boot-Server.git'
@@ -25,7 +25,13 @@ pipeline {
             success {
                archiveArtifacts 'target/*.jar'
             }
+            
          }
+      }
+      stage('Docker Build') {
+         steps {
+            docker.build("my-image")
+         }  
       }
    }
 }
