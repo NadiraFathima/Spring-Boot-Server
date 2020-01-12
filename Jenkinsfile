@@ -29,9 +29,12 @@ pipeline {
          }
       }
       stage('Docker Build') {
-         script {
-           docker.build("my-image")
-         }  
+         steps {
+            script {
+               docker.build("my-image")
+            }
+         }
+           
       }
    }
 }
