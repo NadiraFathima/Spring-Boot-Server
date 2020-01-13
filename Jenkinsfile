@@ -30,7 +30,6 @@ pipeline {
       }
       stage('Docker Build') {
          steps {
-            sh "cd /Users/nadirafathima/.jenkins/workspace/test"
             sh "docker build -t my-image ."
          }
            
